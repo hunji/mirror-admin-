@@ -4,7 +4,8 @@
 ;(function () {
   window.SITE_CONFIG = {}
   // api接口请求地址
-  window.SITE_CONFIG.baseUrl = '//demo.renren.io/renren-fast'
+  //window.SITE_CONFIG.baseUrl = '//demo.renren.io/renren-fast'
+  window.SITE_CONFIG.baseUrl = 'http://localhost:8081/mirror'
 
   // 嵌套iframe地址
   window.SITE_CONFIG.nestIframeUrl = '//demo.renren.io/renren-fast/'
