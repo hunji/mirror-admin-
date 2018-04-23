@@ -3,8 +3,9 @@
     <div class="site-content__wrapper">
       <div class="site-content">
         <div class="brand-info">
-          <h2 class="brand-info__text">renren-fast-vue</h2>
-          <p class="brand-info__intro">renren-fast-vue基于vue、element-ui构建开发，实现renren-fast后台管理前端功能，提供一套更优的前端解决方案。</p>
+          <h2 class="brand-info__text">mirror-admin-vue</h2>
+          <p class="brand-info__intro">mirror-admin-vue基于vue、element-ui构建开发，实现mirror后台管理前端功能，提供一套更优的前端解决方案。(mirror from renren-fast)
+          </p>
         </div>
         <div class="login-main">
           <h3 class="login-title">管理员登录</h3>
@@ -36,3 +37,144 @@
   </div>
 </template>
 
+<script>
+import API from "@/api";
+import { getUUID } from "@/utils";
+export default {
+  data() {
+    return {
+      dataForm: {
+        userName: "",
+        password: "",
+        uuid: "",
+        captcha: ""
+      },
+      dataRule: {
+        userName: [
+          { required: true, message: "帐号不能为空", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "密码不能为空", trigger: "blur" }
+        ],
+        captcha: [
+          { required: true, message: "验证码不能为空", trigger: "blur" }
+        ]
+      },
+      captchaPath: ""
+    };
+  },
+  created() {
+    this.getCaptcha();
+  },
+  methods: {
+    // 提交表单
+    dataFormSubmit() {
+      this.$refs["dataForm"].validate(valid => {
+        if (valid) {
+          var params = {
+            username: this.dataForm.userName,
+            password: this.dataForm.password,
+            uuid: this.dataForm.uuid,
+            captcha: this.dataForm.captcha
+          };
+          API.common.login(params).then(({ data }) => {
+            if (data && data.code === 0) {
+              this.$cookie.set("token", data.token, {
+                expires: `${data.expire || 0}s`
+              });
+              this.$router.replace({ name: "home" });
+            } else {
+              this.getCaptcha();
+              this.$message.error(data.msg);
+            }
+          });
+        }
+      });
+    },
+    // 获取验证码
+    getCaptcha() {
+      this.dataForm.uuid = getUUID();
+      this.captchaPath = API.common.captcha(this.dataForm.uuid);
+    }
+  }
+};
+</script>
+
+
+<style lang="scss">
+.site-wrapper.site-page--login {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(38, 50, 56, 0.6);
+  overflow: hidden;
+  &:before {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background-image: url(~@/assets/img/login_bg.jpg);
+    background-size: cover;
+  }
+  .site-content__wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: transparent;
+  }
+  .site-content {
+    min-height: 100%;
+    padding: 30px 500px 30px 30px;
+  }
+  .brand-info {
+    margin: 220px 100px 0 90px;
+    color: #fff;
+  }
+  .brand-info__text {
+    margin: 0 0 22px 0;
+    font-size: 48px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .brand-info__intro {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.58;
+    opacity: 0.6;
+  }
+  .login-main {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 150px 60px 180px;
+    width: 470px;
+    min-height: 100%;
+    background-color: #fff;
+  }
+  .login-title {
+    font-size: 16px;
+  }
+  .login-captcha {
+    overflow: hidden;
+    > img {
+      width: 100%;
+      cursor: pointer;
+    }
+  }
+  .login-btn-submit {
+    width: 100%;
+    margin-top: 38px;
+  }
+}
+</style>

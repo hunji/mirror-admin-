@@ -6,14 +6,14 @@ import router from '@/router'       // api: https://github.com/vuejs/vue-router
 import store from '@/store'         // api: https://github.com/vuejs/vuex
 import VueCookie from 'vue-cookie'  // api: https://github.com/alfhen/vue-cookie
 import '@/element-ui'               // api: https://github.com/ElemeFE/element
-import '@/icons'                    // api: http://www.iconfont.cn/
+// import '@/icons'                    // api: http://www.iconfont.cn/
 import '@/assets/scss/index.scss'
 import { isAuth } from '@/utils'
 
 Vue.use(VueCookie)
 Vue.config.productionTip = false
 
-//挂载权限方法
+// 挂载权限方法
 Vue.prototype.isAuth = isAuth
 
 /* eslint-disable no-new */
@@ -24,3 +24,4 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+

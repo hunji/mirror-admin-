@@ -7,8 +7,8 @@ import user from './modules/user'
 
 Vue.use(Vuex)
 
-const state={
-    // 导航条, 布局风格, defalut(默认) / inverse(反向)
+const state = {
+  // 导航条, 布局风格, defalut(默认) / inverse(反向)
   navbarLayoutType: 'default',
   // 侧边栏, 布局皮肤, light(浅色) / dark(黑色)
   sidebarLayoutSkin: 'dark',
@@ -25,12 +25,12 @@ const state={
 }
 
 export default new Vuex.Store({
-    state,
-    getters,
-    mutations,
-    actions,
-    modules: {
-      user
-    },
-    strict: process.env.NODE_ENV !== 'production'
+  state,
+  getters,
+  mutations,
+  actions,
+  modules: {
+    user
+  },
+  strict: process.env.NODE_ENV !== 'production'
 })
