@@ -24,13 +24,22 @@
 </template>
 
 <script>
-  export default {
-  }
+import Icon from '@/icons'
+export default {
+  data() {
+    return {
+      iconList: []
+    }
+  },
+  created() {
+    this.iconList = Icon.getNameList()
+  },
+}
 </script>
 
 <style>
-  .mod-home {
-    line-height: 1.5;
-  }
+.mod-home {
+  line-height: 1.5;
+}
 </style>
 

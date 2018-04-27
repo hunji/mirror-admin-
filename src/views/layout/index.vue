@@ -19,16 +19,17 @@
 </template>
 
 <script>
-import Navbar from "./navbar";
-import Sidebar from "./sidebar";
-import ContentTabs from "./content-tabs";
-import API from "@/api";
-import { mapMutations } from "vuex";
+import Navbar from './navbar'
+import Sidebar from './sidebar'
+import ContentTabs from './content-tabs'
+import API from '@/api'
+import { mapMutations } from 'vuex'
+
 export default {
   data() {
     return {
       loading: true
-    };
+    }
   },
   components: {
     Navbar,
@@ -37,60 +38,56 @@ export default {
   },
   computed: {
     siteWarpperClasses() {
-      return [{ "site-sidebar--collapse": this.$store.state.sidebarCollapse }];
+      return [
+        { 'site-sidebar--collapse': this.$store.state.sidebarCollapse }
+      ]
     },
     siteContentWarpperStyles() {
-      return [{ minHeight: this.$store.state.documentClientHeight + "px" }];
+      return [
+        { 'minHeight': this.$store.state.documentClientHeight + 'px' }
+      ]
     },
     routeIsTab() {
-      return this.$route.meta && this.$route.meta.isTab;
+      return this.$route.meta && this.$route.meta.isTab
     },
     contentViewStyles() {
-      var height = this.$store.state.documentClientHeight;
-      height -= 50; // site-topbar
-      height -= 15; // site-content padding-top
-      height -= 15; // site-content padding-bottom
-      height -= 2; // el-card border-top border-bottom
-      height += "px";
-      return [{ minHeight: height }];
+      var height = this.$store.state.documentClientHeight
+      height -= 50 // site-topbar
+      height -= 15 // site-content padding-top
+      height -= 15 // site-content padding-bottom
+      height -= 2  // el-card border-top border-bottom
+      height += 'px'
+      return [
+        { minHeight: height }
+      ]
     }
   },
   created() {
-    this.getUserInfo();
+    this.getUserInfo()
   },
   mounted() {
-    this.resetDocumentClientHeight();
+    this.resetDocumentClientHeight()
     window.onresize = () => {
-      this.resetDocumentClientHeight();
-    };
+      this.resetDocumentClientHeight()
+    }
   },
   methods: {
     // 重置窗口可视高度
     resetDocumentClientHeight() {
-      this.UPDATE_DOCUMENT_CLIENT_HEIGHT({
-        height: document.documentElement["clientHeight"]
-      });
+      this.UPDATE_DOCUMENT_CLIENT_HEIGHT({ height: document.documentElement['clientHeight'] })
     },
     // 获取当前管理员信息
     getUserInfo() {
-        this.loading = false;
-     /*
-     API.user.info().then(({ data }) => {
+      API.user.info().then(({ data }) => {
         if (data && data.code === 0) {
-          this.loading = false;
-          this.DELETE_CONTENT_TABS();
-          this.UPDATE_USER_ID({ id: data.user.userId });
-          this.UPDATE_USER_NAME({ name: data.user.username });
+          this.loading = false
+          this.DELETE_CONTENT_TABS()
+          this.UPDATE_USER_ID({ id: data.user.userId })
+          this.UPDATE_USER_NAME({ name: data.user.username })
         }
-      });
-      */
+      })
     },
-    ...mapMutations([
-      "UPDATE_DOCUMENT_CLIENT_HEIGHT",
-      "UPDATE_USER_ID",
-      "UPDATE_USER_NAME",
-      "DELETE_CONTENT_TABS"
-    ])
+    ...mapMutations(['UPDATE_DOCUMENT_CLIENT_HEIGHT', 'UPDATE_USER_ID', 'UPDATE_USER_NAME', 'DELETE_CONTENT_TABS'])
   }
-};
+}
 </script>
